@@ -446,7 +446,7 @@ var graphs = (() => {
                 this.webgl.viewport(a, b, c, d);
             }
         }
-        exports.default = WebGLPlot;
+        exports.WebGLPlot = WebGLPlot;
     });
     //# sourceMappingURL=graphs.js.map
     'marker:resolver';
