@@ -28,25 +28,37 @@
       line.lineSpaceX(-1, 2 / numX);
       wglp.addLine(line);
 
+      const freq = 0.001;
+      const amp = 0.9;
+      const noise = 0.1;
+      for (let i = 0; i < line.numPoints; i++) {
+        const ySin = Math.sin(Math.PI * i * freq * Math.PI * 2);
+        const yNoise = Math.random() - 0.5;
+        line.setY(i, ySin * amp + yNoise * noise);
+      }
+
       function newFrame() {
         update();
         wglp.update();
         window.requestAnimationFrame(newFrame);
       }
       window.requestAnimationFrame(newFrame);
+      // setInterval(newFrame, 1);
 
       let x = 0;
       function update() {
-        // Draw initial sin
-        const freq = 0.001;
-        const amp = 0.9;
-        const noise = 0.1;
-        for (let i = 0; i < line.numPoints; i++) {
-          const ySin = Math.sin(x + Math.PI * i * freq * Math.PI * 2);
-          const yNoise = Math.random() - 0.5;
-          line.setY(i, ySin * amp + yNoise * noise);
-        }
+        x += 0.1;
+        const ySin1 = Math.sin(x + Math.PI * line.numPoints * freq * Math.PI * 2);
+        const ySin2 = Math.sin(x + 0.025 + Math.PI * line.numPoints * freq * Math.PI * 2);
+        const ySin3 = Math.sin(x + 0.05 + Math.PI * line.numPoints * freq * Math.PI * 2);
+        const ySin4 = Math.sin(x + 0.075 + Math.PI * line.numPoints * freq * Math.PI * 2);
+        const newY1 = ySin1 * amp + (Math.random() - 0.5) * noise;
+        const newY2 = ySin2 * amp + (Math.random() - 0.5) * noise;
+        const newY3 = ySin3 * amp + (Math.random() - 0.5) * noise;
+        const newY4 = ySin4 * amp + (Math.random() - 0.5) * noise;
+        line.shiftAdd([newY1, newY2, newY3, newY4]);
       }
+
     </script>
   </body>
 </html>
