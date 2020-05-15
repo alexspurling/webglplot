@@ -1,56 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      <title>Webgl line plotting framework - Lines</title>
-      <script src="./graphs.js"></script>
-      
-   </head>
-  
-   <body>
-      <div>
-         <canvas class="canvas" id="my_canvas"></canvas>
-      </div>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Webgl line plotting framework - Lines</title>
+    <script src="./graphs.js"></script>
 
-      <script>
-         const canv = document.getElementById("my_canvas");
-         canv.width  = 800;
-         canv.height = 200;
-         const devicePixelRatio = window.devicePixelRatio || 1;
-         const numX = Math.round(canv.clientWidth * devicePixelRatio);
-         console.log("Num x points is: ", numX);
-         const color = new graphs.ColorRGBA(Math.random(), Math.random(), Math.random(), 1);
-         console.log(graphs);
-         const line = new graphs.WebglLine(color, numX);
-         const wglp = new graphs.WebGLPlot(canv);
+  </head>
 
-         line.lineSpaceX(-1, 2 / numX);
-         wglp.addLine(line);
+  <body>
+    <div>
+      <canvas class="canvas" id="my_canvas"></canvas>
+    </div>
 
-         function newFrame() {
-           update();
-           wglp.update();
-           window.requestAnimationFrame(newFrame);
-         }
-         window.requestAnimationFrame(newFrame);
+    <script>
+      const canv = document.getElementById("my_canvas");
+      canv.width  = 800;
+      canv.height = 200;
+      const devicePixelRatio = window.devicePixelRatio || 1;
+      const numX = Math.round(canv.clientWidth * devicePixelRatio);
+      console.log("Num x points is: ", numX);
+      const color = new graphs.ColorRGBA(Math.random(), Math.random(), Math.random(), 1);
+      console.log(graphs);
+      const line = new graphs.WebglLine(color, numX);
+      const wglp = new graphs.WebGLPlot(canv);
 
-         let x = 0;
-         function update() {
-           const freq = 0.001;
-           const amp = 0.9;
-           const noise = 0.1;
-           x += 0.1;
+      line.lineSpaceX(-1, 2 / numX);
+      wglp.addLine(line);
 
-           for (let i = 0; i < line.numPoints; i++) {
-             const ySin = Math.sin(x + Math.PI * i * freq * Math.PI * 2);
-             const yNoise = Math.random() - 0.5;
-             line.setY(i, ySin * amp + yNoise * noise);
-           }
-         }
-      </script>
-   </body>
-   
+      function newFrame() {
+        update();
+        wglp.update();
+        window.requestAnimationFrame(newFrame);
+      }
+      window.requestAnimationFrame(newFrame);
 
-
-  </html>
+      let x = 0;
+      function update() {
+        // Draw initial sin
+        const freq = 0.001;
+        const amp = 0.9;
+        const noise = 0.1;
+        for (let i = 0; i < line.numPoints; i++) {
+          const ySin = Math.sin(x + Math.PI * i * freq * Math.PI * 2);
+          const yNoise = Math.random() - 0.5;
+          line.setY(i, ySin * amp + yNoise * noise);
+        }
+      }
+    </script>
+  </body>
+</html>
